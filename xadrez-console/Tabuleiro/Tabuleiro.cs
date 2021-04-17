@@ -12,7 +12,7 @@ namespace xadrez_console.tabuleiro
 
         public int Colunas { get; set; }
 
-        public Peca[,] Pecas { get; set; }
+        public Peca[,] Pecas { get; private set; }
 
         public Tabuleiro(int linhas, int colunas)
         {
