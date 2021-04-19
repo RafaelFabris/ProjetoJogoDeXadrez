@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using xadrez_console.tabuleiro;
 using xadrez_console.tabuleiro.Enums;
+using xadrez_console.tabuleiro.Exceptions;
 
 namespace xadrez_console.xadrez
 {
@@ -25,10 +26,49 @@ namespace xadrez_console.xadrez
 
         public void ExecutaMovimento(Posicao origem , Posicao destino)
         {
-            Peca p = Tab.RetirarPeca(origem);
-            p.IncrementarQteMovimentos();
-            Peca pecaCapturada = Tab.RetirarPeca(destino);
-            Tab.ColocarPeca(p , destino);
+            bool[,] mat = Tab.Peca(origem).MovimentosPossiveis();
+            if (mat[destino.Linha, destino.Coluna] == false)
+            {
+                throw new TabuleiroExceptions("Esta peca não pode ir para esta possição!");
+            }
+            else
+            {
+                Peca p = Tab.RetirarPeca(origem);
+                p.IncrementarQteMovimentos();
+                Peca pecaCapturada = Tab.RetirarPeca(destino);
+                Tab.ColocarPeca(p, destino);
+            }
+        }
+
+        public void RealizaJogada(Posicao origem , Posicao destino)
+        {          
+            ExecutaMovimento(origem, destino);
+            Turno++;
+            MudaJogador();
+        }
+
+        private void MudaJogador()
+        {
+            if (JogadorAtual == Cor.Branca)
+                JogadorAtual = Cor.Preta;
+            else
+                JogadorAtual = Cor.Branca;
+        }
+
+        public void ValidarPosicaoDeOrigem(Posicao pos)
+        {
+            if(Tab.Peca(pos) == null)
+            {
+                throw new TabuleiroExceptions("Não existe peça na posição escolhida!");
+            }
+            if(JogadorAtual != Tab.Peca(pos).Cor)
+            {
+                throw new TabuleiroExceptions("A peça de origem escolhida não é sua!");
+            }
+            if (!Tab.Peca(pos).ExisteMovimentoPossiveis())
+            {
+                throw new TabuleiroExceptions("Não há movimentos possiveis para a peça de origem escolhida!");
+            }
         }
 
         private void ColocarPecas()
