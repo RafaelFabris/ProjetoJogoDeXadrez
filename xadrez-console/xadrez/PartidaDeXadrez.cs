@@ -107,7 +107,7 @@ namespace xadrez_console.xadrez
 
         public void ValidarPosicaoDeDestino(Posicao origem, Posicao destino)
         {
-            if (!Tab.Peca(origem).PodeMoverPara(destino))
+            if (!Tab.Peca(origem).MovimentoPossivel(destino))
             {
                 throw new TabuleiroExceptions("Posição de destino iválida!");
             }
@@ -141,7 +141,7 @@ namespace xadrez_console.xadrez
             return aux;
         }
 
-        public Cor Adversaria(Cor cor)
+        private Cor Adversaria(Cor cor)
         {
             if (cor == Cor.Branca)
                 return Cor.Preta;
