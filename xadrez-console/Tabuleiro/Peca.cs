@@ -29,6 +29,10 @@ namespace xadrez_console.tabuleiro
         {
             QteMovimentos++;
         }
+        public void DecrementarQteMovimentos()
+        {
+            QteMovimentos--;
+        }
 
         public abstract bool[,] MovimentosPossiveis();
         
