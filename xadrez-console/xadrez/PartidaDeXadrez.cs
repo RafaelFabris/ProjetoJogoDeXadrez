@@ -26,18 +26,18 @@ namespace xadrez_console.xadrez
 
         public void ExecutaMovimento(Posicao origem , Posicao destino)
         {
-            bool[,] mat = Tab.Peca(origem).MovimentosPossiveis();
+            /*bool[,] mat = Tab.Peca(origem).MovimentosPossiveis();
             if (mat[destino.Linha, destino.Coluna] == false)
             {
                 throw new TabuleiroExceptions("Esta peca não pode ir para esta possição!");
-            }
-            else
-            {
+            }*/
+            //else
+            //{
                 Peca p = Tab.RetirarPeca(origem);
                 p.IncrementarQteMovimentos();
                 Peca pecaCapturada = Tab.RetirarPeca(destino);
                 Tab.ColocarPeca(p, destino);
-            }
+            //}
         }
 
         public void RealizaJogada(Posicao origem , Posicao destino)
@@ -68,6 +68,14 @@ namespace xadrez_console.xadrez
             if (!Tab.Peca(pos).ExisteMovimentoPossiveis())
             {
                 throw new TabuleiroExceptions("Não há movimentos possiveis para a peça de origem escolhida!");
+            }
+        }
+
+        public void ValidarPosicaoDeDestino(Posicao origem , Posicao destino) 
+        {
+            if (!Tab.Peca(origem).PodeMoverPara(destino))
+            {
+                throw new TabuleiroExceptions("Posição de destino iválida!");
             }
         }
 
